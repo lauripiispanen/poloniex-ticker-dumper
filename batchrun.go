@@ -14,7 +14,10 @@ func PerformDump(ctx context.Context) ([]*datastore.Key, error) {
   }
   var storable []*TickerDatum
   for i := range datums {
-    storable = append(storable, &datums[i])
+    datum := datums[i]
+    if datum.CurrencyPair == "BTC_ETH" {
+      storable = append(storable, &datums[i])
+    }
   }
   return StoreAll(ctx, storable)
 }
