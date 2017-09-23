@@ -1,8 +1,7 @@
-package batchrun
+package poloniextickerdumper
 
 import (
   "testing"
-  "../store"
   "google.golang.org/appengine/aetest"
   "google.golang.org/appengine/datastore"
 )
@@ -14,7 +13,7 @@ func TestFullBatch(t *testing.T) {
   }
   defer done()
 
-  count, err := datastore.NewQuery(store.DATASTORE_ENTITY_TYPE).Count(ctx)
+  count, err := datastore.NewQuery(DATASTORE_ENTITY_TYPE).Count(ctx)
 
   if err != nil {
     t.Fatal(err)
@@ -22,7 +21,7 @@ func TestFullBatch(t *testing.T) {
     t.Fatal("Expected datastore entity count to be zero, instead got:", count)
   }
 
-  keys, err := Perform(ctx)
+  keys, err := PerformDump(ctx)
   if err != nil {
     t.Fatal(err)
   } else if len(keys) < 2 {

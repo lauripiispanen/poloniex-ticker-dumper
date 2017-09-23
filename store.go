@@ -1,15 +1,14 @@
-package store
+package poloniextickerdumper
 
 import (
   "google.golang.org/appengine/datastore"
   "golang.org/x/net/context"
   "errors"
-  "../datafetch"
 )
 
 
-func Store(ctx context.Context, datum *datafetch.TickerDatum) (*datastore.Key, error) {
-  k, err := StoreAll(ctx, []*datafetch.TickerDatum{datum})
+func Store(ctx context.Context, datum *TickerDatum) (*datastore.Key, error) {
+  k, err := StoreAll(ctx, []*TickerDatum{datum})
   if err != nil {
     return nil, err
   } else if len(k) == 1 {
@@ -19,7 +18,7 @@ func Store(ctx context.Context, datum *datafetch.TickerDatum) (*datastore.Key, e
   }
 }
 
-func StoreAll(ctx context.Context, datums []*datafetch.TickerDatum) ([]*datastore.Key, error) {
+func StoreAll(ctx context.Context, datums []*TickerDatum) ([]*datastore.Key, error) {
   var keys []*datastore.Key
   for range datums {
     keys = append(keys, datastore.NewIncompleteKey(ctx, DATASTORE_ENTITY_TYPE, nil))

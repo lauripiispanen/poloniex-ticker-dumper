@@ -1,22 +1,20 @@
-package batchrun
+package poloniextickerdumper
 
 import (
   "golang.org/x/net/context"
   "google.golang.org/appengine/datastore"
   "google.golang.org/appengine/urlfetch"
-  "../datafetch"
-  "../store"
 )
 
-func Perform(ctx context.Context) ([]*datastore.Key, error) {
+func PerformDump(ctx context.Context) ([]*datastore.Key, error) {
   client := urlfetch.Client(ctx)
-  datums, err := datafetch.Fetch(client)
+  datums, err := Fetch(client)
   if err != nil {
     return nil, err
   }
-  var storable []*datafetch.TickerDatum
+  var storable []*TickerDatum
   for i := range datums {
     storable = append(storable, &datums[i])
   }
-  return store.StoreAll(ctx, storable)
+  return StoreAll(ctx, storable)
 }

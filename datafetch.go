@@ -1,4 +1,4 @@
-package datafetch
+package poloniextickerdumper
 
 import (
   "net/http"
