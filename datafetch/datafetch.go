@@ -8,8 +8,8 @@ import (
   "errors"
 )
 
-func Fetch() ([]TickerDatum, error) {
-  bodyBytes, err := FetchData(&http.Client {})
+func Fetch(client *http.Client) ([]TickerDatum, error) {
+  bodyBytes, err := FetchData(client)
   if err != nil {
     return nil, err
   }
