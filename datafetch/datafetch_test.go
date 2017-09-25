@@ -1,4 +1,4 @@
-package poloniextickerdumper
+package datafetch
 
 import (
   "testing"
@@ -18,7 +18,7 @@ func TestParsing(t *testing.T) {
   }
   var BTC_BCN *TickerDatum
   for i := range tickers {
-    var ticker = &tickers[i]
+    var ticker = tickers[i]
     if ticker.CurrencyPair == "BTC_BCN" {
       BTC_BCN = ticker
     }

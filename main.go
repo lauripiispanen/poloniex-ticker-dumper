@@ -1,20 +1,42 @@
-package poloniextickerdumper
+package main
 
 import (
+  "os"
+  "os/signal"
+  "syscall"
+  "sync"
+  "flag"
   "fmt"
-  "net/http"
-  "google.golang.org/appengine"
+  "./batchrun"
 )
 
-func init() {
-  http.HandleFunc("/run", handler)
+func main() {
+  dirName := getDirnameFlagOrExit()
+  callback := func() {
+    batchrun.PerformDump(dirName)
+  }
+
+  var wg sync.WaitGroup
+  wg.Add(1)
+  go listenForSIGUSR1(wg, callback)
+  wg.Wait()
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-  keys, err := PerformDump(appengine.NewContext(r))
-  if err != nil {
-    http.Error(w, err.Error(), http.StatusInternalServerError)
-    return
+func listenForSIGUSR1(wg sync.WaitGroup, callback func()) {
+  defer wg.Done()
+  c := make(chan os.Signal, 1)
+  signal.Notify(c, syscall.SIGUSR1)
+  for _ = range c {
+    callback()
   }
-  fmt.Fprint(w, "Count:", len(keys))
+}
+
+func getDirnameFlagOrExit() string {
+  dirNamePtr := flag.String("dir", "", "directory to use")
+  flag.Parse()
+  if *dirNamePtr == "" {
+    fmt.Println("missing flag 'dir'")
+    os.Exit(1)
+  }
+  return *dirNamePtr
 }

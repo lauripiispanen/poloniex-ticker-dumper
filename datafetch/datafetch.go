@@ -1,4 +1,4 @@
-package poloniextickerdumper
+package datafetch
 
 import (
   "net/http"
@@ -8,7 +8,7 @@ import (
   "errors"
 )
 
-func Fetch(client *http.Client) ([]TickerDatum, error) {
+func Fetch(client *http.Client) ([]*TickerDatum, error) {
   bodyBytes, err := FetchData(client)
   if err != nil {
     return nil, err
@@ -30,9 +30,9 @@ func FetchData(getter Getter) ([]byte, error) {
   }
 }
 
-func ParseResponse(input []byte) ([]TickerDatum, error) {
+func ParseResponse(input []byte) ([]*TickerDatum, error) {
   var parsed map[string]TickerData
-  var out []TickerDatum
+  var out []*TickerDatum
   err := json.Unmarshal(input, &parsed)
   if err != nil {
     return nil, err
@@ -41,7 +41,7 @@ func ParseResponse(input []byte) ([]TickerDatum, error) {
 
   for key, value := range parsed {
     datum := TickerDatum {Timestamp: timestamp, CurrencyPair: key, Last: value.Last, LowestAsk: value.LowestAsk, HighestBid: value.HighestBid, PercentChange: value.PercentChange, BaseVolume: value.BaseVolume, QuoteVolume: value.QuoteVolume, IsFrozen: value.IsFrozen, High24hr: value.High24hr, Low24hr: value.Low24hr }
-    out = append(out, datum)
+    out = append(out, &datum)
   }
   return out, nil
 }
