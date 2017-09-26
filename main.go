@@ -2,32 +2,39 @@ package main
 
 import (
   "os"
-  "os/signal"
-  "syscall"
-  "sync"
   "flag"
   "fmt"
-  "./batchrun"
+  "time"
+  "log"
+  "net/http"
+  "./store"
+  "./datafetch"
 )
 
 func main() {
   dirName := getDirnameFlagOrExit()
-  callback := func() {
-    batchrun.PerformDump(dirName)
-  }
+  datumChan := make(chan []*datafetch.TickerDatum)
+  go func() {
+    for datums := range datumChan {
+      err := store.StoreAll(dirName, datums)
+      if err != nil {
+        log.Println("Error storing datums:", err)
+      }
+    }
+  }()
 
-  var wg sync.WaitGroup
-  wg.Add(1)
-  go listenForSIGUSR1(wg, callback)
-  wg.Wait()
-}
-
-func listenForSIGUSR1(wg sync.WaitGroup, callback func()) {
-  defer wg.Done()
-  c := make(chan os.Signal, 1)
-  signal.Notify(c, syscall.SIGUSR1)
-  for _ = range c {
-    callback()
+  ticker := time.NewTicker(2 * time.Second)
+  for _ = range ticker.C {
+    go func() {
+      log.Println("Fetching...")
+      client := &http.Client{}
+      datums, err := datafetch.Fetch(client)
+      if err != nil {
+        log.Println("Error fetching:", err)
+      } else {
+        datumChan <- datums
+      }
+    }()
   }
 }
 
