@@ -1,0 +1,10 @@
+{
+  "package": {
+    "name": "poloniex-ticker-dumper",
+    "repo": "oss-tools"
+  },
+  "version": {
+    "name": "0.1"
+  },
+  "publish": true
+}

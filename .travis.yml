@@ -3,5 +3,10 @@ go:
   - 1.8.x
 env:
   - GOOS=linux
-script:
-  - go build -v main.go
+script: go build -v ./...
+deploy:
+  provider: bintray
+  user: lauripiispanen
+  file: descriptor.json
+  key:
+    secure: VnrHJzCRncKDcYC4KBxLgD8MI/IRQ3Lp977M9Dx05Xc1+3x0OYIJSUjU7DsiZv5XuY006qhvmDX6S/cPJlS8p5jCiuxffwCFXhhVJnr5IEPfq5jXB/f0XCQRpHdqVEICZX+twprDiGDQjE6AyNXtDpJak3cPwbIcJxEPdC1GZoIgXn6hSz3DYhyi4qUyXY7t3D3y8oHN8mYj+bYsM+Zd2bWl1sozNiqzk72+u9z8RxBUBi68x3HfgfEIkKvCSiucHmV/U+ifsbAwOW/5u0HG/w4wWGmjPMTgWun0yq49QaJ+UhyBlceyxUVdyOz7Zj0QeKP/NoqL9kETDB4i/n0UIczI5DDEGOGYAFWyTPzC8bRUl/rYKOxGLPX+KQUhZP8ZYhKLN+9aNu5/Se3mLhK1+6qpV3nxSBsCqRtHDeCky3riVuv66+6Rp2ZySr+BfgIfPswuv4IefHr9j6yeea0TCGaMUu+ZPwPgg/lFxxeYbrAjGknfbkDTFGBfO3Kf57ivBhpKwpY1hd/Oqex+DWBVEK7vzDiQLcEqOgr/GGkFcLbo3o83g2FM1SievWVGvh5LlWXnPSbRQB2H0rPl10lKFsNCuDKW2Gb0aMHLHvHhaubvz67z387kSoL1sXcsUESMDVa/rMctJMQ/bKolWOXCg/bNMDQC96Kx/hRl3cM7s1g=
