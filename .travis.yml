@@ -3,10 +3,15 @@ go:
   - 1.8.x
 env:
   - GOOS=linux
-script: go build -v ./...
+script:
+  - go build -o tickerdumper -v main.go
+  - pwd
+  - find *
 deploy:
-  provider: bintray
-  user: lauripiispanen
-  file: descriptor.json
-  key:
-    secure: VnrHJzCRncKDcYC4KBxLgD8MI/IRQ3Lp977M9Dx05Xc1+3x0OYIJSUjU7DsiZv5XuY006qhvmDX6S/cPJlS8p5jCiuxffwCFXhhVJnr5IEPfq5jXB/f0XCQRpHdqVEICZX+twprDiGDQjE6AyNXtDpJak3cPwbIcJxEPdC1GZoIgXn6hSz3DYhyi4qUyXY7t3D3y8oHN8mYj+bYsM+Zd2bWl1sozNiqzk72+u9z8RxBUBi68x3HfgfEIkKvCSiucHmV/U+ifsbAwOW/5u0HG/w4wWGmjPMTgWun0yq49QaJ+UhyBlceyxUVdyOz7Zj0QeKP/NoqL9kETDB4i/n0UIczI5DDEGOGYAFWyTPzC8bRUl/rYKOxGLPX+KQUhZP8ZYhKLN+9aNu5/Se3mLhK1+6qpV3nxSBsCqRtHDeCky3riVuv66+6Rp2ZySr+BfgIfPswuv4IefHr9j6yeea0TCGaMUu+ZPwPgg/lFxxeYbrAjGknfbkDTFGBfO3Kf57ivBhpKwpY1hd/Oqex+DWBVEK7vzDiQLcEqOgr/GGkFcLbo3o83g2FM1SievWVGvh5LlWXnPSbRQB2H0rPl10lKFsNCuDKW2Gb0aMHLHvHhaubvz67z387kSoL1sXcsUESMDVa/rMctJMQ/bKolWOXCg/bNMDQC96Kx/hRl3cM7s1g=
+  provider: releases
+  api_key:
+    secure: KEeZUUpt8LqJyPQ3+pi8Yd0CrUqlbin62xpMRexmXeg4KqkDZDiC3A1jwYG7eE3uW7pKAKERe+zBT5YCNT6OZ/S8Cve0PN+t4rb47yuBoeFLXffHa8X+GJCbPSD1aMunh75iGV5KVjbmGxyR0HysBR7ql+93q8U/vL5TDnMqhf2vP4GNX07Pq9L/6WPONrq4qb9RshLW5pmUV/VS/gdcuEddaoDs1mEw5IX1vUP0v3s8QUcxWKem4axPwiAAiywGj+u5d5bD0Tl3EQo45PlZKcv/aBz0VEHDvVfeawHrgilUuuP3rH9SA+8K6qhtB54KgWVOyLSptHjELnU8k0qlZWwSr/anvXfAeVzxtspKimQEC5Khf6WpHS8gd/+TN1SVipNmdFfNruufNcue7RD49ggitSvou89viI2XAUJnaqonLKTixSOXNpI2lZVriyjdb8YDSodCZKF0t6/wEe8XYl+aBV0+fiIku4kvAoW1Ek5da2y6DM4MMG9O/P9LVMKtc6Z+0Ho+iDJNgaOIaBBLvalNTPhpPpNk3e00QeCanK7v6SAfaxDwz9DQU2k86vrbYixxFgaScA881c0cqte82/aDuEe4huhdRg0fnWoDvb6ESUlCq9yxA/OGyeKMiDBcOVU70xO/lqG0UfMgkudwIa4QTfFgJE1igL42phxW3BA=
+  file: tickerdumper
+  on:
+    tags: true
+  skip_cleanup: true
