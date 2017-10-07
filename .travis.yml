@@ -3,3 +3,5 @@ go:
   - 1.8.x
 env:
   - GOOS=linux
+script:
+  - go build -v main.go
