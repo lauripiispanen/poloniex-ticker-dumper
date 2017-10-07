@@ -7,8 +7,8 @@ import (
   "time"
   "log"
   "net/http"
-  "./store"
-  "./datafetch"
+  "github.com/lauripiispanen/poloniex-ticker-dumper/store"
+  "github.com/lauripiispanen/poloniex-ticker-dumper/datafetch"
 )
 
 func main() {

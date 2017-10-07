@@ -1,7 +1,7 @@
 package store
 
 import (
-  "../datafetch"
+  "github.com/lauripiispanen/poloniex-ticker-dumper/datafetch"
   "path"
   "time"
   "fmt"
